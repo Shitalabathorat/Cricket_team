@@ -9,9 +9,11 @@ app.use(express.json());
 const dbPath = Path.join(__dirname, "cricketTeam.db");
 
 let db = null;
+const port 3000;
 
 const initializeDbAndServer = async () => {
-  try {
+    const port=4000;
+    try {
     db = await open({
       filename: dbPath,
       driver: sqlite3.Database,
