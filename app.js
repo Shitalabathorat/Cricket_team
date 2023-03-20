@@ -4,16 +4,17 @@ const sqlite3 = require("sqlite3");
 const path = require("path");
 
 const app = express();
+
 app.use(express.json());
+
 
 const dbPath = Path.join(__dirname, "cricketTeam.db");
 
 let db = null;
-const port 3000;
 
-const initializeDbAndServer = async () => {
-    const port=4000;
-    try {
+
+const initializeDBAndServer = async () => {
+  try {
     db = await open({
       filename: dbPath,
       driver: sqlite3.Database,
@@ -26,7 +27,10 @@ const initializeDbAndServer = async () => {
     process.exit(1);
   }
 };
-initializeDbAndServer();
+
+initializeDBAndServer();
+
+
 //GET API
 const convertDbObjectToResponseObject = (dbObject) => {
   return {
@@ -51,12 +55,11 @@ app.get("/players/", async (request, response) => {
   );
 });
 
+
 //Get post 
 app.post("/players/", async(request,response)=>{
     const playersDetails=request.body;
-    const playersDetails={
-        playerId,playerName,jerseyNumber,role
-    } ;
+    const {playerName, jerseyNumber, role} = playersDetails ;
     const addPlayersQuery=`
     INSERT INTO 
         cricket_team(playerId,playerName,jerseyNumber,role)
@@ -68,6 +71,7 @@ app.post("/players/", async(request,response)=>{
     response.send("Player Added to Team");
 
 });
+
 
 //GET playerId API
 app.get("/players/:playerId/", async(request,response)=>{
@@ -81,14 +85,13 @@ app.get("/players/:playerId/", async(request,response)=>{
     respons.send(player);
 });
 
+
 //APP PUT
 
 app.put("/players/:playerId/", async(request,response)=>{
     const { playerId }=request.params;
     const playersDetails=request.body;
-    const playersDetails={
-        playerId,playerName,jerseyNumber,role
-    };
+    const {playerName, jerseyNumber, role} = playersDetails ;
     const updatedPlayersQuery=`
     UPDATE 
     cricket_team
@@ -101,6 +104,7 @@ app.put("/players/:playerId/", async(request,response)=>{
     await db.run(updatePlayerQuery);
     response.send("Player Details Updated");
 })
+
 //DLETE API
 app.delete("/players/:playerId/", async (request, response) => {
   const { playerId } = request.params;
@@ -112,9 +116,7 @@ app.delete("/players/:playerId/", async (request, response) => {
   await db.run(deletePlayersQuery);
   response.send("Player Removed");
 });
-
-
-
+module.exports = app;
 
 
 
