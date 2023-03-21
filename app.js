@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 
-const dbPath = Path.join(__dirname, "cricketTeam.db");
+const dbPath = path.join(__dirname, "cricketTeam.db");
 
 let db = null;
 
@@ -100,7 +100,7 @@ app.put("/players/:playerId/", async(request,response)=>{
     jerseyNumber=${jerseyNumber},
     role=`${role}`
     WHERE 
-    playerId=`${playerId}`;`;
+    playerId=${playerId};`;
     await db.run(updatePlayerQuery);
     response.send("Player Details Updated");
 })
