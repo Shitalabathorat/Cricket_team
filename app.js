@@ -110,9 +110,9 @@ app.delete("/players/:playerId/", async (request, response) => {
   const { playerId } = request.params;
   const deletePlayersQuery = `
     DELETE FROM
-      book
+      cricket_team
     WHERE
-      book_id = ${bookId};`;
+      player_id=${playerId};`;
   await db.run(deletePlayersQuery);
   response.send("Player Removed");
 });
