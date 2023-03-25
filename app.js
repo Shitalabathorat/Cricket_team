@@ -34,9 +34,9 @@ initializeDBAndServer();
 //GET API
 const convertDbObjectToResponseObject = (dbObject) => {
   return {
-    playerId: dbObject.player_id,
-    playerName: dbObject.player_name,
-    jerseyNumber: dbObject.jersey_number,
+    player_id: dbObject.playerId,
+    player_name: dbObject.playerName,
+    jersey_number: dbObject.jerseyNumber,
     role: dbObject.role,
   };
 };
@@ -62,7 +62,7 @@ app.post("/players/", async(request,response)=>{
     const {playerName, jerseyNumber, role} = playersDetails ;
     const addPlayersQuery=`
     INSERT INTO 
-        cricket_team(playerId,playerName,jerseyNumber,role)
+        cricket_team(,player_name,jersey_number,role)//corrected here
         VALUES('${playerName}','${jerseyNumber}','${role}');`;//corrected here
     const dbResponse=await db.run(addPlayersQuery);
     console.log(dbResponse);
@@ -96,11 +96,11 @@ app.put("/players/:playerId/", async(request,response)=>{
     UPDATE 
     cricket_team
     SET
-    playerName='${playerName}',
-    jerseyNumber=${jerseyNumber},
+    player_name='${playerName}',
+    jersey_number=${jerseyNumber},//corrected here
     role='${role}'//corrected here
     WHERE 
-    playerId=${playerId};`;//corrected here
+    player_id=${playerId};`;//corrected here
     await db.run(updatePlayerQuery);
     response.send("Player Details Updated");
 })
